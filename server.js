@@ -7,6 +7,7 @@ const { spawn } = require('child_process');
 const ffmpegPath = require('ffmpeg-static');
 
 const app = express();
+app.set('trust proxy', 1);
 const port = Number(process.env.PORT || 10000);
 const dataDir = path.join(__dirname, 'data');
 const hlsDir = path.join(dataDir, 'hls');
@@ -97,13 +98,15 @@ app.post('/api/login', (req, res) => {
   attempts.delete(ip);
   const token = crypto.randomBytes(32).toString('hex');
   sessions.set(token, { expires: Date.now() + 12 * 3600000 });
-  res.setHeader('Set-Cookie', 'micamara_session=' + token + '; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=43200');
+  const secureCookie = req.secure ? '; Secure' : '';
+  res.setHeader('Set-Cookie', 'micamara_session=' + token + '; HttpOnly; SameSite=Strict; Path=/; Max-Age=43200' + secureCookie);
   res.json({ ok:true });
 });
 app.post('/api/logout', (req, res) => {
   const token = cookies(req).micamara_session;
   if (token) sessions.delete(token);
-  res.setHeader('Set-Cookie','micamara_session=; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=0');
+  const secureCookie = req.secure ? '; Secure' : '';
+  res.setHeader('Set-Cookie','micamara_session=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0' + secureCookie);
   res.json({ ok:true });
 });
 app.get('/api/camera', auth, (_req,res) => res.json(cameraInfo()));
