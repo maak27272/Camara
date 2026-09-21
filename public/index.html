@@ -1,1 +1,13 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mi Cámara</title><link rel="stylesheet" href="/styles.css"></head><body><main class="shell"><header><p class="eyebrow">CÁMARA PERSONAL</p><h1>Mi Cámara</h1><p>Panel privado para conectar y supervisar tu cámara IP.</p></header><section class="card"><div class="preview"><strong id="cameraName">Mi Cámara</strong><span id="status">Comprobando configuración…</span></div><div class="grid"><div>Host <strong id="host">—</strong></div><div>RTSP <strong id="rtsp">—</strong></div><div>ONVIF <strong id="onvif">—</strong></div></div><button id="testButton">Probar conexión</button><p id="result"></p></section></main><script src="/app.js" defer></script></body></html>
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090d16"><title>Mi Cámara</title><link rel="stylesheet" href="/styles.css"></head>
+<body>
+<main class="shell">
+<section id="loginView" class="card login"><p class="eyebrow">ACCESO PRIVADO</p><h1>Mi Cámara</h1><form id="loginForm"><input id="username" autocomplete="username" placeholder="Usuario" value="admin" required><input id="password" type="password" autocomplete="current-password" placeholder="Contraseña" required><button>Entrar</button></form><p id="loginResult"></p></section>
+<section id="appView" hidden>
+<header><div><p class="eyebrow">CÁMARA PERSONAL</p><h1>Mi Cámara</h1></div><button id="logout" class="small">Salir</button></header>
+<section class="card"><div class="preview"><video id="video" controls autoplay muted playsinline></video><div id="streamMessage">El vídeo aparecerá aquí cuando RTSP esté configurado.</div></div><div class="grid"><div><span>Estado</span><strong id="status">—</strong></div><div><span>Host</span><strong id="host">—</strong></div><div><span>RTSP</span><strong id="rtsp">—</strong></div><div><span>ONVIF</span><strong id="onvif">—</strong></div></div><button id="testButton">Probar configuración</button><p id="result"></p></section>
+<section class="card"><div class="sectionTitle"><h2>Grabaciones</h2><button id="refresh" class="small">Actualizar</button></div><div id="recordings" class="recordings"></div></section>
+</section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script><script src="/app.js" defer></script>
+</body></html>
