@@ -1,8 +1,8 @@
 {
   "name": "micamara",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
-  "description": "Panel web personal para una camara IP",
+  "description": "Panel privado para camara IP con RTSP, HLS y grabaciones",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "dotenv": "^16.4.5",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "ffmpeg-static": "^5.2.0"
   }
 }
