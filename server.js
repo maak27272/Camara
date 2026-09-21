@@ -1,0 +1,12 @@
+require('dotenv').config();
+const express=require('express');
+const path=require('path');
+const app=express();
+const port=Number(process.env.PORT||10000);
+app.use(express.json({limit:'32kb'}));
+app.use(express.static(path.join(__dirname,'public')));
+app.get('/health',(_req,res)=>res.json({ok:true,service:'micamara'}));
+app.get('/api/camera',(_req,res)=>{const configured=Boolean(process.env.CAMERA_HOST||process.env.CAMERA_RTSP_URL||process.env.CAMERA_ONVIF_URL);res.json({name:process.env.CAMERA_NAME||'Mi Camara',configured,host:process.env.CAMERA_HOST||null,port:Number(process.env.CAMERA_PORT||80),rtspConfigured:Boolean(process.env.CAMERA_RTSP_URL),onvifConfigured:Boolean(process.env.CAMERA_ONVIF_URL)});});
+app.post('/api/camera/test',(_req,res)=>{if(!process.env.CAMERA_HOST)return res.status(400).json({ok:false,message:'Configura CAMERA_HOST antes de probar la conexion.'});res.json({ok:true,message:'Configuracion detectada. La integracion RTSP/ONVIF se habilitara con los datos reales de la camara.'});});
+app.get('*',(_req,res)=>res.sendFile(path.join(__dirname,'public','index.html')));
+app.listen(port,'0.0.0.0',()=>console.log('Mi Camara disponible en el puerto '+port));
